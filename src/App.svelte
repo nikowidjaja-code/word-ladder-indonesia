@@ -86,7 +86,7 @@
 
     {#if game.s.done}
       <div class="done" transition:slide>
-        {game.steps} langkah · par {game.s.par} · {over === 0 ? "sempurna!" : `+${over}`}
+        {game.steps} langkah · par {game.s.par} · <b class:over={over > 0} class:perfect={over === 0}>{over === 0 ? "sempurna!" : `+${over}`}</b>
         {#if game.s.hints}· {game.s.hints} petunjuk{/if}
         {#if game.s.mode === "daily"}· streak {game.stats.streak}{/if}
         <button type="button" onclick={share}>{shared ? "Tersalin!" : "Bagikan"}</button>
@@ -139,7 +139,7 @@
   @keyframes shake { 0%,100% { transform: none } 25% { transform: translateX(-10px) } 75% { transform: translateX(10px) } }
   .msg { min-height: 1.3em; margin: 6px 0 0; text-align: center; color: var(--bad); font-size: .9em; }
 
-  .done { text-align: center; margin-top: 12px; padding: 10px; border: 1px solid var(--ok); border-radius: 12px; color: var(--ok); font-weight: 600; font-size: .95em; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 8px; align-items: center; }
+  .done { text-align: center; margin-top: 12px; padding: 10px; border: 1px solid var(--ok); border-radius: 12px;  font-size: .95em; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 8px; align-items: center; }
 
   footer { margin-top: auto; padding-top: 20px; text-align: center; font-size: .85em; color: var(--mute); }
   .stats { display: flex; justify-content: center; gap: 16px; margin-bottom: 8px; }
