@@ -43,6 +43,7 @@
       <span class="meta">{game.s.mode === "daily" ? `Harian #${game.s.seed}` : "Acak"} · {game.s.start.length} huruf</span>
     </header>
 
+    <div class="ladder">
     <section class="anchor">
       <small>Dari</small>
       <div class="word">{game.s.start}</div>
@@ -53,7 +54,13 @@
         <li transition:slide={{ duration: 200 }} class:hit={w === game.s.target}>{w}</li>
       {/each}
     </ol>
+    <section class="anchor">
+      <div class="word target">{game.s.target}</div>
+      <small>Ke</small>
+    </section>
+    </div>
 
+    <div class="play">
     <form onsubmit={onSubmit} autocomplete="off" class="box">
       <!-- svelte-ignore a11y_autofocus -->
       <input
@@ -75,10 +82,6 @@
       <p class="msg" role="alert">{msg}</p>
     </form>
 
-    <section class="anchor">
-      <div class="word target">{game.s.target}</div>
-      <small>Ke</small>
-    </section>
 
     {#if game.s.done}
       <div class="done" transition:slide>
@@ -88,6 +91,8 @@
         <button type="button" onclick={share}>{shared ? "Tersalin!" : "Bagikan"}</button>
       </div>
     {/if}
+
+    </div>
 
     <footer>
       <div class="stats">
@@ -138,4 +143,23 @@
   button { font: inherit; font-size: .85em; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--fg); cursor: pointer; }
   button:disabled { opacity: .35; cursor: default; }
   footer a { display: inline-block; margin-top: 12px; color: inherit; font-size: .8em; }
+
+  /* portrait / narrow: wrappers vanish, plain stack */
+  .ladder, .play { display: contents; }
+
+  /* landscape / wide: two columns, ladder left, box right */
+  @media (min-width: 720px) and (orientation: landscape), (min-width: 900px) {
+    .page { display: grid; grid-template-columns: minmax(200px, 1fr) minmax(0, 1.6fr); grid-template-rows: auto 1fr auto; grid-template-areas: "header header" "ladder play" "footer footer"; column-gap: clamp(24px, 5vw, 80px); }
+    header { grid-area: header; }
+    footer { grid-area: footer; margin-top: 0; }
+    .ladder { grid-area: ladder; display: flex; flex-direction: column; min-height: 0; }
+    .play { grid-area: play; display: flex; flex-direction: column; justify-content: center; }
+    .word { font-size: clamp(2.2em, 5vw, 4em); }
+    input { font-size: clamp(3em, 9vw, 7em); padding: .3em 0; border-width: 4px; border-radius: 24px; }
+    .chain li { font-size: 1.3em; }
+    .done { font-size: 1.05em; }
+    footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .stats { margin: 0; }
+    footer a { margin: 0; }
+  }
 </style>
