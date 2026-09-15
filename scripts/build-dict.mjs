@@ -1,4 +1,3 @@
-// Build data/words.json: per length (3-6), giant connected component of 1-letter-diff graph.
 // Usage: node scripts/build-dict.mjs [data/source.lst]
 import { readFileSync, writeFileSync } from "node:fs";
 
@@ -58,6 +57,3 @@ for (const n of [3, 4, 5, 6]) {
   out[n] = gc;
   console.log(`len ${n}: ${words.length} words -> giant component ${gc.length}`);
 }
-writeFileSync("data/words.json", JSON.stringify(out));
-writeFileSync("data/words.js", "window.WORDS=" + JSON.stringify(out) + ";");
-console.log("wrote data/words.json, data/words.js");

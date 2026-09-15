@@ -1,0 +1,18 @@
+{
+  "extends": "@tsconfig/svelte/tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "checkJs": false,
+    "isolatedModules": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "types": ["vite/client", "vite-plugin-pwa/svelte", "node"]
+  },
+  "include": ["src/**/*.ts", "src/**/*.svelte", "vite.config.ts", "capacitor.config.ts"]
+}
