@@ -92,31 +92,45 @@
 
 
     {#if game.s.done}
-      <div class="done" transition:slide>
-        <p>
-          {game.steps} langkah · par {game.s.par} · <b class:over={over > 0} class:perfect={over === 0}>{over === 0 ? "sempurna!" : `+${over}`}</b>
-          {#if game.s.hints}· {game.s.hints} petunjuk{/if}
-          {#if game.s.mode === "daily"}· streak {game.stats.streak}{/if}
+      <section class="result" transition:slide>
+        <h2 class:perfect={over === 0}>{over === 0 ? "Sempurna!" : "Selesai!"}</h2>
+        <p class="score">
+          <span class="badge" class:over={over > 0} class:perfect={over === 0}>{over === 0 ? "par" : `+${over}`}</span>
+          {game.steps} langkah · par {game.s.par}
         </p>
-        <button type="button" onclick={share}>{shared ? "Tersalin!" : "Bagikan"}</button>
-      </div>
-      <button type="button" class="primary" transition:slide onclick={() => { game.newGame("random"); shared = false; }}>Main lagi</button>
+        {#if game.s.hints || game.s.mode === "daily"}
+          <p class="sub">
+            {#if game.s.hints}{game.s.hints} petunjuk{/if}
+            {#if game.s.hints && game.s.mode === "daily"} · {/if}
+            {#if game.s.mode === "daily"}streak {game.stats.streak} hari{/if}
+          </p>
+        {/if}
+        <div class="cta">
+          <button type="button" class="primary" onclick={() => { game.newGame("random"); shared = false; }}>Main lagi</button>
+          <button type="button" onclick={share}>{shared ? "Tersalin!" : "Bagikan"}</button>
+        </div>
+      </section>
     {/if}
-
     </div>
     </div>
 
     <footer>
-      <div class="stats">
-        <span><b>{game.steps}</b> langkah</span>
-        <span>par <b>{game.s.par}</b></span>
-        <span>terbaik <b>{game.stats.best[game.s.start.length] != null ? `+${game.stats.best[game.s.start.length]}` : "–"}</b></span>
-      </div>
+      {#if !game.s.done}
+        <div class="stats">
+          <span><b>{game.steps}</b> langkah</span>
+          <span>par <b>{game.s.par}</b></span>
+          <span>terbaik <b>{game.stats.best[game.s.start.length] != null ? `+${game.stats.best[game.s.start.length]}` : "–"}</b></span>
+        </div>
+      {/if}
       <div class="actions">
-        <button type="button" onclick={() => game.undo()} disabled={game.s.done || game.s.chain.length < 2}>Batal</button>
-        <button type="button" onclick={() => game.hint()} disabled={game.s.done}>Petunjuk +1</button>
-        <button type="button" onclick={() => !game.isTodayDaily && game.newGame("daily")}>Harian</button>
-        <button type="button" onclick={() => { game.newGame("random"); shared = false; }}>Acak</button>
+        {#if !game.s.done}
+          <button type="button" onclick={() => game.undo()} disabled={game.s.chain.length < 2}>Batal</button>
+          <button type="button" onclick={() => game.hint()}>Petunjuk +1</button>
+          <button type="button" onclick={() => { game.newGame("random"); shared = false; }}>Acak</button>
+        {/if}
+        {#if !game.isTodayDaily}
+          <button type="button" onclick={() => game.newGame("daily")}>Harian</button>
+        {/if}
       </div>
       <a href="./privacy.html">Privasi</a>
     </footer>
@@ -154,7 +168,16 @@
   @keyframes shake { 0%,100% { transform: none } 25% { transform: translateX(-10px) } 75% { transform: translateX(10px) } }
   .msg { min-height: 1.3em; margin: 6px 0 0; text-align: center; color: var(--bad); font-size: .9em; }
 
-  .done { text-align: center; margin-top: 12px; padding: 10px; border: 1px solid var(--ok); border-radius: 12px;  font-size: .95em; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 8px; align-items: center; }
+  .result { text-align: center; margin: 8px 0; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .result h2 { margin: 0; font-size: 1.6em; font-weight: 700; letter-spacing: .05em; }
+  .result h2.perfect { color: var(--gold); }
+  .score { margin: 0; display: flex; align-items: center; gap: 10px; }
+  .badge { font-weight: 700; padding: 2px 10px; border-radius: 999px; color: var(--bg); background: var(--ok); }
+  .badge.perfect { background: var(--gold); }
+  .sub { margin: 0; color: var(--mute); font-size: .85em; }
+  .cta { display: flex; gap: 10px; margin-top: 12px; width: 100%; justify-content: center; }
+  .cta button { padding: 12px 24px; font-size: 1em; }
+  .primary { background: var(--fg); color: var(--bg); border-color: var(--fg); font-weight: 600; flex: 1; max-width: 240px; }
 
   footer { margin-top: auto; padding-top: 20px; text-align: center; font-size: .85em; color: var(--mute); }
   .stats { display: flex; justify-content: center; gap: 16px; margin-bottom: 8px; }
