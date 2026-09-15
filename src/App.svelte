@@ -114,7 +114,7 @@
 {/if}
 
 <style>
-  .page { min-height: 100dvh; display: flex; flex-direction: column; gap: 4px; }
+  .page { flex: 1; display: flex; flex-direction: column; gap: 4px; }
   .ladder { display: contents; }
   .play { display: contents; }
   .center { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
@@ -158,7 +158,7 @@
     .center { display: contents; }
     footer { grid-area: footer; margin-top: 0; }
     .ladder { grid-area: ladder; display: flex; flex-direction: column; justify-content: center; min-width: 0; container-type: inline-size; }
-    .chain { flex: 0 0 auto; max-height: 40vh; }
+    .chain { flex: 0 0 auto; max-height: 40vh; overflow-y: auto; }
     .play { grid-area: play; display: flex; flex-direction: column; justify-content: center; min-width: 0; container-type: inline-size; }
     .word { font-size: clamp(1.4em, 13cqw, 2.8em); }
     input { font-size: clamp(1.6em, 16cqw, 3.4em); letter-spacing: .15em; }
