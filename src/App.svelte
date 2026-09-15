@@ -43,6 +43,7 @@
       <span class="meta">{game.s.mode === "daily" ? `Harian #${game.s.seed}` : "Acak"} · {game.s.start.length} huruf</span>
     </header>
 
+    <div class="center">
     <div class="ladder">
     <section class="anchor">
       <small>Dari</small>
@@ -93,6 +94,7 @@
     {/if}
 
     </div>
+    </div>
 
     <footer>
       <div class="stats">
@@ -112,7 +114,10 @@
 {/if}
 
 <style>
-  .page { display: flex; flex-direction: column; gap: 4px; }
+  .page { min-height: 100dvh; display: flex; flex-direction: column; gap: 4px; }
+  .ladder { display: contents; }
+  .play { display: contents; }
+  .center { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
   header { display: flex; justify-content: space-between; font-size: .8em; color: var(--mute); padding-bottom: 8px; }
   .title { font-weight: 600; letter-spacing: .05em; color: var(--fg); }
 
@@ -136,7 +141,7 @@
 
   .done { text-align: center; margin-top: 12px; padding: 10px; border: 1px solid var(--ok); border-radius: 12px; font-size: .95em; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 8px; align-items: center; }
 
-  footer { padding-top: 20px; text-align: center; font-size: .85em; color: var(--mute); }
+  footer { margin-top: auto; padding-top: 20px; text-align: center; font-size: .85em; color: var(--mute); }
   .stats { display: flex; justify-content: center; gap: 16px; margin-bottom: 8px; }
   .stats b { color: var(--fg); }
   .actions { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; }
@@ -145,12 +150,12 @@
   footer a { display: inline-block; margin-top: 12px; color: inherit; font-size: .8em; }
 
   /* portrait / narrow: wrappers vanish, plain stack */
-  .ladder, .play { display: contents; }
 
   /* landscape / wide: ladder left, box right */
   @media (min-width: 720px) and (orientation: landscape), (min-width: 900px) {
     .page { min-height: 100dvh; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto 1fr auto; grid-template-areas: "header header" "ladder play" "footer footer"; column-gap: 40px; align-items: center; }
     header { grid-area: header; }
+    .center { display: contents; }
     footer { grid-area: footer; margin-top: 0; }
     .ladder { grid-area: ladder; display: flex; flex-direction: column; justify-content: center; min-width: 0; }
     .chain { flex: 0 0 auto; max-height: 40vh; }
