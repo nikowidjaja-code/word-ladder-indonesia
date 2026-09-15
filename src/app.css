@@ -2,4 +2,4 @@
 @media (prefers-color-scheme: dark) { :root { --bg:#111; --fg:#eee; --mute:#999; --line:#333; } }
 * { box-sizing: border-box; }
 body { margin: 0; font: 16px/1.4 system-ui, sans-serif; background: var(--bg); color: var(--fg); }
-#app { max-width: 420px; margin-inline: auto; padding: 16px; padding-top: max(16px, env(safe-area-inset-top)); }
+#app { max-width: 420px; margin-inline: auto; padding: 12px 16px; padding-top: max(12px, env(safe-area-inset-top)); padding-bottom: max(12px, env(safe-area-inset-bottom)); }

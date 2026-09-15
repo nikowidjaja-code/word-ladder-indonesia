@@ -37,25 +37,24 @@
 </script>
 
 {#if game.ready}
-  <header>
-    <h1>Tangga Kata</h1>
-    <div class="stats">
-      <div><span>{game.steps}</span><small>Langkah</small></div>
-      <div><span>{game.s.par}</span><small>Par</small></div>
-      <div><span>{game.stats.best[game.s.start.length] != null ? `+${game.stats.best[game.s.start.length]}` : "-"}</span><small>Terbaik</small></div>
-    </div>
-  </header>
+  <div class="page">
+    <header>
+      <span class="title">Tangga Kata</span>
+      <span class="meta">{game.s.mode === "daily" ? `Harian #${game.s.seed}` : "Acak"} · {game.s.start.length} huruf</span>
+    </header>
 
-  <main>
-    <p class="mode">{game.s.mode === "daily" ? `Harian #${game.s.seed}` : "Acak"} · {game.s.start.length} huruf</p>
+    <section class="anchor">
+      <small>Dari</small>
+      <div class="word">{game.s.start}</div>
+    </section>
 
-    <ol>
-      {#each game.s.chain as w, i (w)}
-        <li transition:slide={{ duration: 200 }} class:first={i === 0}>{w}</li>
+    <ol class="chain">
+      {#each game.s.chain.slice(1) as w (w)}
+        <li transition:slide={{ duration: 200 }} class:hit={w === game.s.target}>{w}</li>
       {/each}
     </ol>
 
-    <form onsubmit={onSubmit} autocomplete="off">
+    <form onsubmit={onSubmit} autocomplete="off" class="box">
       <!-- svelte-ignore a11y_autofocus -->
       <input
         bind:this={inputEl}
@@ -64,6 +63,7 @@
         type="text"
         maxlength={game.s.start.length}
         disabled={game.s.done}
+        placeholder={game.s.done ? "✓" : "·".repeat(game.s.start.length)}
         inputmode="text"
         autocapitalize="none"
         autocorrect="off"
@@ -72,59 +72,70 @@
         aria-label="Kata berikutnya"
         autofocus
       />
+      <p class="msg" role="alert">{msg}</p>
     </form>
-    <p class="msg" role="alert">{msg}</p>
-    <p class="target">Tujuan: <b>{game.s.target}</b></p>
 
-    <div class="actions">
-      <button type="button" onclick={() => game.undo()} disabled={game.s.done || game.s.chain.length < 2}>Batal</button>
-      <button type="button" onclick={() => game.hint()} disabled={game.s.done}>Petunjuk (+1)</button>
-    </div>
+    <section class="anchor">
+      <div class="word target">{game.s.target}</div>
+      <small>Ke</small>
+    </section>
 
     {#if game.s.done}
       <div class="done" transition:slide>
-        <p>
-          Selesai dalam {game.steps} langkah (par {game.s.par}, {over === 0 ? "sempurna!" : `+${over}`})
-          {#if game.s.hints}<br />{game.s.hints} petunjuk{/if}
-          {#if game.s.mode === "daily"}<br />Streak: {game.stats.streak} hari{/if}
-        </p>
+        {game.steps} langkah · par {game.s.par} · {over === 0 ? "sempurna!" : `+${over}`}
+        {#if game.s.hints}· {game.s.hints} petunjuk{/if}
+        {#if game.s.mode === "daily"}· streak {game.stats.streak}{/if}
         <button type="button" onclick={share}>{shared ? "Tersalin!" : "Bagikan"}</button>
       </div>
     {/if}
 
-    <div class="actions nav">
-      <button type="button" onclick={() => !game.isTodayDaily && game.newGame("daily")}>Harian</button>
-      <button type="button" onclick={() => { game.newGame("random"); shared = false; }}>Acak</button>
-    </div>
-  </main>
-
-  <footer><a href="./privacy.html">Privasi</a> · Kata dari daftar Ivan Lanin (2011)</footer>
+    <footer>
+      <div class="stats">
+        <span><b>{game.steps}</b> langkah</span>
+        <span>par <b>{game.s.par}</b></span>
+        <span>terbaik <b>{game.stats.best[game.s.start.length] != null ? `+${game.stats.best[game.s.start.length]}` : "–"}</b></span>
+      </div>
+      <div class="actions">
+        <button type="button" onclick={() => game.undo()} disabled={game.s.done || game.s.chain.length < 2}>Batal</button>
+        <button type="button" onclick={() => game.hint()} disabled={game.s.done}>Petunjuk +1</button>
+        <button type="button" onclick={() => !game.isTodayDaily && game.newGame("daily")}>Harian</button>
+        <button type="button" onclick={() => { game.newGame("random"); shared = false; }}>Acak</button>
+      </div>
+      <a href="./privacy.html">Privasi</a>
+    </footer>
+  </div>
 {/if}
 
 <style>
-  header { text-align: center; }
-  h1 { margin: 0 0 8px; font-weight: 600; letter-spacing: .05em; }
-  .stats { display: flex; justify-content: center; gap: 24px; }
-  .stats div { display: flex; flex-direction: column; align-items: center; }
-  .stats span { font-size: 1.4em; font-weight: 600; }
-  .stats small { font-size: .75em; color: var(--mute); text-transform: uppercase; }
-  .mode { text-align: center; color: var(--mute); font-size: .85em; margin: 12px 0 4px; }
-  ol { list-style: none; padding: 0; margin: 0; }
-  li { text-align: center; padding: 8px; font-size: 1.5em; letter-spacing: .3em; text-transform: uppercase; border-bottom: 1px solid var(--line); }
-  li.first { color: var(--mute); }
-  input { width: 100%; font-size: 1.5em; letter-spacing: .3em; text-transform: uppercase; text-align: center; padding: 10px; border: 2px solid var(--line); border-radius: 8px; background: transparent; color: var(--fg); margin-top: 8px; }
-  input:focus { outline: none; border-color: var(--fg); }
+  .page { min-height: 100dvh; display: flex; flex-direction: column; gap: 4px; }
+  header { display: flex; justify-content: space-between; font-size: .8em; color: var(--mute); padding-bottom: 8px; }
+  .title { font-weight: 600; letter-spacing: .05em; color: var(--fg); }
+
+  .anchor { text-align: center; }
+  .anchor small { display: block; font-size: .7em; text-transform: uppercase; letter-spacing: .2em; color: var(--mute); }
+  .word { font-size: 2.2em; font-weight: 700; letter-spacing: .25em; text-transform: uppercase; line-height: 1.2; }
+  .word.target { color: var(--ok); }
+
+  .chain { list-style: none; padding: 0; margin: 0; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; overflow-y: auto; }
+  .chain li { text-align: center; padding: 2px; font-size: 1.1em; letter-spacing: .25em; text-transform: uppercase; color: var(--mute); }
+  .chain li.hit { color: var(--ok); }
+
+  .box { margin: 12px 0; }
+  input { display: block; width: 100%; font-size: clamp(2.4em, 12vw, 3.4em); font-weight: 700; letter-spacing: .25em; text-transform: uppercase; text-align: center; padding: .35em 0; border: 3px solid var(--fg); border-radius: 16px; background: transparent; color: var(--fg); }
+  input::placeholder { color: var(--line); }
+  input:focus { outline: none; box-shadow: 0 0 0 4px color-mix(in srgb, var(--fg) 15%, transparent); }
+  input:disabled { border-color: var(--ok); color: var(--ok); }
   input.shake { animation: shake .3s; border-color: var(--bad); }
-  @keyframes shake { 0%,100% { transform: none } 25% { transform: translateX(-8px) } 75% { transform: translateX(8px) } }
-  .msg { min-height: 1.4em; text-align: center; color: var(--bad); font-size: .9em; margin: 6px 0; }
-  .target { text-align: center; margin: 4px 0 12px; }
-  .target b { letter-spacing: .3em; text-transform: uppercase; font-size: 1.2em; }
-  .actions { display: flex; gap: 8px; justify-content: center; margin-top: 8px; }
-  .nav { margin-top: 24px; }
-  button { font: inherit; padding: 8px 14px; border: 1px solid var(--line); border-radius: 8px; background: transparent; color: var(--fg); cursor: pointer; }
-  button:disabled { opacity: .4; cursor: default; }
-  .done { text-align: center; margin-top: 16px; padding: 12px; border: 1px solid var(--ok); border-radius: 8px; }
-  .done p { margin: 0 0 8px; }
-  footer { text-align: center; color: var(--mute); font-size: .75em; margin-top: 32px; }
-  footer a { color: inherit; }
+  @keyframes shake { 0%,100% { transform: none } 25% { transform: translateX(-10px) } 75% { transform: translateX(10px) } }
+  .msg { min-height: 1.3em; margin: 6px 0 0; text-align: center; color: var(--bad); font-size: .9em; }
+
+  .done { text-align: center; margin-top: 12px; padding: 10px; border: 1px solid var(--ok); border-radius: 12px; font-size: .95em; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 8px; align-items: center; }
+
+  footer { margin-top: auto; padding-top: 16px; text-align: center; font-size: .85em; color: var(--mute); }
+  .stats { display: flex; justify-content: center; gap: 16px; margin-bottom: 8px; }
+  .stats b { color: var(--fg); }
+  .actions { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; }
+  button { font: inherit; font-size: .85em; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--fg); cursor: pointer; }
+  button:disabled { opacity: .35; cursor: default; }
+  footer a { display: inline-block; margin-top: 12px; color: inherit; font-size: .8em; }
 </style>
