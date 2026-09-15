@@ -139,7 +139,7 @@
   @keyframes shake { 0%,100% { transform: none } 25% { transform: translateX(-10px) } 75% { transform: translateX(10px) } }
   .msg { min-height: 1.3em; margin: 6px 0 0; text-align: center; color: var(--bad); font-size: .9em; }
 
-  .done { text-align: center; margin-top: 12px; padding: 10px; border: 1px solid var(--ok); border-radius: 12px; font-size: .95em; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 8px; align-items: center; }
+  .done { text-align: center; margin-top: 12px; padding: 10px; border: 1px solid var(--ok); border-radius: 12px; color: var(--ok); font-weight: 600; font-size: .95em; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 8px; align-items: center; }
 
   footer { margin-top: auto; padding-top: 20px; text-align: center; font-size: .85em; color: var(--mute); }
   .stats { display: flex; justify-content: center; gap: 16px; margin-bottom: 8px; }
