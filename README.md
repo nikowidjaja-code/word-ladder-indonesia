@@ -15,7 +15,7 @@ npm run build      # dist/
 
 ## Dictionary
 `data/source.lst` = Ivan Lanin 2011 word list (public domain, via geovedi/indonesian-wordlist).
-`npm run dict` filters to 3–6 letter root-ish words, keeps giant connected component per length → `data/words.json` (bundled into app).
+`npm run dict` filters to 3–6 letter root-ish words, keeps giant connected component per length, and marks **common anchors** = words in top-5000 of `data/freq-id.txt` (OpenSubtitles 2018, hermitdave/FrequencyWords) that have a common partner 3–6 steps away → `data/words.json` `{words, common}`. Start/target come only from `common`; intermediate steps may use any word.
 Optional `data/blocklist.txt` (one word per line) removes words before graph build.
 Changing the dictionary changes daily puzzles (seeded by day number, deterministic over the word list).
 

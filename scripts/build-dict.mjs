@@ -50,10 +50,25 @@ function giantComponent(words) {
   return best.sort();
 }
 
-const out = {};
+// common anchors: intersection with top-N of OpenSubtitles 2018 frequency list (hermitdave/FrequencyWords)
+const TOP_N = 5000;
+const MIN_PAR = 3, MAX_PAR = 6; // keep in sync with src/lib/puzzle.ts
+const top = new Set(readFileSync("data/freq-id.txt", "utf8").split("\n").slice(0, TOP_N).map((l) => l.split(" ")[0]));
+
+const out = { words: {}, common: {} };
 for (const n of [3, 4, 5, 6]) {
   const words = roots.filter((w) => w.length === n);
   const gc = giantComponent(words);
-  out[n] = gc;
-  console.log(`len ${n}: ${words.length} words -> giant component ${gc.length}`);
+  out.words[n] = gc;
+  // anchors: common words that have at least one common partner MIN_PAR..MAX_PAR steps away
+  const set = new Set(gc), common = gc.filter((w) => top.has(w)), cset = new Set(common);
+  out.common[n] = common.filter((w) => {
+    const dist = new Map([[w, 0]]), q = [w];
+    for (let i = 0; i < q.length; i++) for (const v of neighbors(q[i], set)) if (!dist.has(v)) { dist.set(v, dist.get(q[i]) + 1); q.push(v); }
+    return [...dist].some(([v, d]) => cset.has(v) && d >= MIN_PAR && d <= MAX_PAR);
+  });
+  console.log(`len ${n}: ${words.length} words -> giant component ${gc.length}, common anchors ${out.common[n].length}`);
 }
+
+writeFileSync("data/words.json", JSON.stringify(out));
+console.log("wrote data/words.json");

@@ -1,8 +1,10 @@
-import words from "../../data/words.json" with { type: "json" };
+import data from "../../data/words.json" with { type: "json" };
 
 export const LENS = [3, 4, 5, 6] as const;
 export type Len = (typeof LENS)[number];
-export const WORDS = words as Record<Len, string[]>;
+export const WORDS = data.words as Record<Len, string[]>;
+/** Common words (top-5k subtitle frequency); start/target are drawn only from these. */
+export const COMMON = data.common as Record<Len, string[]>;
 const SETS: Record<number, Set<string>> = Object.fromEntries(LENS.map((n) => [n, new Set(WORDS[n])]));
 
 export const isWord = (w: string) => SETS[w.length]?.has(w) ?? false;

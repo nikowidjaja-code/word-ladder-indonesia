@@ -1,4 +1,4 @@
-import { LENS, WORDS, bfs } from "./graph.ts";
+import { LENS, COMMON, bfs } from "./graph.ts";
 
 export const MIN_PAR = 3, MAX_PAR = 6;
 export interface Puzzle { start: string; target: string; par: number }
@@ -24,10 +24,10 @@ export function makePuzzle(seed: number): Puzzle {
   const rng = mulberry32(seed);
   for (let tries = 0; tries < 200; tries++) {
     const len = LENS[Math.floor(rng() * LENS.length)];
-    const words = WORDS[len];
-    const start = words[Math.floor(rng() * words.length)];
+    const pool = COMMON[len];
+    const start = pool[Math.floor(rng() * pool.length)];
     const dist = bfs(start);
-    const cands = [...dist].filter(([, d]) => d >= MIN_PAR && d <= MAX_PAR).map(([w]) => w).sort();
+    const cands = pool.filter((w) => { const d = dist.get(w) ?? 0; return d >= MIN_PAR && d <= MAX_PAR; });
     if (!cands.length) continue;
     const target = cands[Math.floor(rng() * cands.length)];
     return { start, target, par: dist.get(target)! };
