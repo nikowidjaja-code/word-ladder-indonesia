@@ -112,7 +112,7 @@
 {/if}
 
 <style>
-  .page { min-height: 100dvh; display: flex; flex-direction: column; gap: 4px; }
+  .page { display: flex; flex-direction: column; gap: 4px; }
   header { display: flex; justify-content: space-between; font-size: .8em; color: var(--mute); padding-bottom: 8px; }
   .title { font-weight: 600; letter-spacing: .05em; color: var(--fg); }
 
@@ -121,7 +121,7 @@
   .word { font-size: 2.2em; font-weight: 700; letter-spacing: .25em; text-transform: uppercase; line-height: 1.2; }
   .word.target { color: var(--ok); }
 
-  .chain { list-style: none; padding: 0; margin: 0; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; overflow-y: auto; }
+  .chain { list-style: none; padding: 0; margin: 0; }
   .chain li { text-align: center; padding: 2px; font-size: 1.1em; letter-spacing: .25em; text-transform: uppercase; color: var(--mute); }
   .chain li.hit { color: var(--ok); }
 
@@ -136,7 +136,7 @@
 
   .done { text-align: center; margin-top: 12px; padding: 10px; border: 1px solid var(--ok); border-radius: 12px; font-size: .95em; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 8px; align-items: center; }
 
-  footer { margin-top: auto; padding-top: 16px; text-align: center; font-size: .85em; color: var(--mute); }
+  footer { padding-top: 20px; text-align: center; font-size: .85em; color: var(--mute); }
   .stats { display: flex; justify-content: center; gap: 16px; margin-bottom: 8px; }
   .stats b { color: var(--fg); }
   .actions { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; }
@@ -149,7 +149,7 @@
 
   /* landscape / wide: ladder left, box right */
   @media (min-width: 720px) and (orientation: landscape), (min-width: 900px) {
-    .page { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto 1fr auto; grid-template-areas: "header header" "ladder play" "footer footer"; column-gap: 40px; align-items: center; }
+    .page { min-height: 100dvh; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto 1fr auto; grid-template-areas: "header header" "ladder play" "footer footer"; column-gap: 40px; align-items: center; }
     header { grid-area: header; }
     footer { grid-area: footer; margin-top: 0; }
     .ladder { grid-area: ladder; display: flex; flex-direction: column; justify-content: center; min-width: 0; }
