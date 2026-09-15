@@ -93,9 +93,12 @@
 
     {#if game.s.done}
       <div class="done" transition:slide>
-        {game.steps} langkah · par {game.s.par} · <b class:over={over > 0} class:perfect={over === 0}>{over === 0 ? "sempurna!" : `+${over}`}</b>
-        {#if game.s.hints}· {game.s.hints} petunjuk{/if}
-        {#if game.s.mode === "daily"}· streak {game.stats.streak}{/if}
+        <p>
+          {game.steps} langkah · par {game.s.par} · <b class:over={over > 0} class:perfect={over === 0}>{over === 0 ? "sempurna!" : `+${over}`}</b>
+          {#if game.s.hints}· {game.s.hints} petunjuk{/if}
+          {#if game.s.mode === "daily"}· streak {game.stats.streak}{/if}
+        </p>
+        <button type="button" class="primary" onclick={() => { game.newGame("random"); shared = false; }}>Main lagi</button>
         <button type="button" onclick={share}>{shared ? "Tersalin!" : "Bagikan"}</button>
       </div>
     {/if}
