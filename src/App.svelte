@@ -98,9 +98,9 @@
           {#if game.s.hints}· {game.s.hints} petunjuk{/if}
           {#if game.s.mode === "daily"}· streak {game.stats.streak}{/if}
         </p>
-        <button type="button" class="primary" onclick={() => { game.newGame("random"); shared = false; }}>Main lagi</button>
         <button type="button" onclick={share}>{shared ? "Tersalin!" : "Bagikan"}</button>
       </div>
+      <button type="button" class="primary" transition:slide onclick={() => { game.newGame("random"); shared = false; }}>Main lagi</button>
     {/if}
 
     </div>
