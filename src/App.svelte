@@ -126,7 +126,7 @@
   .chain li.hit { color: var(--ok); }
 
   .box { margin: 12px 0; }
-  input { display: block; width: 100%; font-size: clamp(2.4em, 12vw, 3.4em); font-weight: 700; letter-spacing: .25em; text-transform: uppercase; text-align: center; padding: .35em 0; border: 3px solid var(--fg); border-radius: 16px; background: transparent; color: var(--fg); }
+  input { display: block; width: 100%; min-width: 0; font-size: clamp(2em, 10vw, 3em); font-weight: 700; letter-spacing: .25em; text-transform: uppercase; text-align: center; padding: .35em 0; border: 3px solid var(--fg); border-radius: 16px; background: transparent; color: var(--fg); }
   input::placeholder { color: var(--line); }
   input:focus { outline: none; box-shadow: 0 0 0 4px color-mix(in srgb, var(--fg) 15%, transparent); }
   input:disabled { border-color: var(--ok); color: var(--ok); }
@@ -147,19 +147,16 @@
   /* portrait / narrow: wrappers vanish, plain stack */
   .ladder, .play { display: contents; }
 
-  /* landscape / wide: two columns, ladder left, box right */
+  /* landscape / wide: ladder left, box right */
   @media (min-width: 720px) and (orientation: landscape), (min-width: 900px) {
-    .page { display: grid; grid-template-columns: minmax(200px, 1fr) minmax(0, 1.6fr); grid-template-rows: auto 1fr auto; grid-template-areas: "header header" "ladder play" "footer footer"; column-gap: clamp(24px, 5vw, 80px); }
+    .page { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto 1fr auto; grid-template-areas: "header header" "ladder play" "footer footer"; column-gap: 40px; align-items: center; }
     header { grid-area: header; }
     footer { grid-area: footer; margin-top: 0; }
-    .ladder { grid-area: ladder; display: flex; flex-direction: column; min-height: 0; }
-    .play { grid-area: play; display: flex; flex-direction: column; justify-content: center; }
-    .word { font-size: clamp(2.2em, 5vw, 4em); }
-    input { font-size: clamp(3em, 9vw, 7em); padding: .3em 0; border-width: 4px; border-radius: 24px; }
-    .chain li { font-size: 1.3em; }
-    .done { font-size: 1.05em; }
-    footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
-    .stats { margin: 0; }
-    footer a { margin: 0; }
+    .ladder { grid-area: ladder; display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+    .chain { flex: 0 0 auto; max-height: 40vh; }
+    .play { grid-area: play; display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+    .word { font-size: 2.6em; }
+    input { font-size: 3.2em; letter-spacing: .15em; }
+    .box { margin: 0; }
   }
 </style>
