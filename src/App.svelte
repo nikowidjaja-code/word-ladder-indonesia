@@ -153,15 +153,15 @@
 
   /* landscape / wide: ladder left, box right */
   @media (min-width: 720px) and (orientation: landscape), (min-width: 900px) {
-    .page { min-height: 100dvh; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto 1fr auto; grid-template-areas: "header header" "ladder play" "footer footer"; column-gap: 40px; align-items: center; }
+    .page { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto 1fr auto; grid-template-areas: "header header" "ladder play" "footer footer"; column-gap: 40px; align-items: center; }
     header { grid-area: header; }
     .center { display: contents; }
     footer { grid-area: footer; margin-top: 0; }
-    .ladder { grid-area: ladder; display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+    .ladder { grid-area: ladder; display: flex; flex-direction: column; justify-content: center; min-width: 0; container-type: inline-size; }
     .chain { flex: 0 0 auto; max-height: 40vh; }
-    .play { grid-area: play; display: flex; flex-direction: column; justify-content: center; min-width: 0; }
-    .word { font-size: 2.6em; }
-    input { font-size: 3.2em; letter-spacing: .15em; }
+    .play { grid-area: play; display: flex; flex-direction: column; justify-content: center; min-width: 0; container-type: inline-size; }
+    .word { font-size: clamp(1.4em, 13cqw, 2.8em); }
+    input { font-size: clamp(1.6em, 16cqw, 3.4em); letter-spacing: .15em; }
     .box { margin: 0; }
   }
 </style>
