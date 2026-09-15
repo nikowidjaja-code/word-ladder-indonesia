@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111">
+<title>Tangga Kata</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Tangga Kata</h1>
+  <div class="stats">
+    <div><span id="steps">0</span><label>Langkah</label></div>
+    <div><span id="par">-</span><label>Par</label></div>
+    <div><span id="best">-</span><label>Terbaik</label></div>
+  </div>
+</header>
+<main>
+  <p class="mode"><span id="modeLabel"></span> · <span id="lenLabel"></span></p>
+  <ol id="chain"></ol>
+  <form id="form" autocomplete="off">
+    <input id="input" type="text" inputmode="latin" autocapitalize="none" autocorrect="off" spellcheck="false" autofocus>
+  </form>
+  <p id="msg" class="msg"></p>
+  <p class="target">Tujuan: <b id="target"></b></p>
+  <div class="actions">
+    <button type="button" id="undo">Batal</button>
+    <button type="button" id="hint">Petunjuk (+1)</button>
+  </div>
+  <div id="done" class="done" hidden>
+    <p id="result"></p>
+    <button type="button" id="share">Bagikan</button>
+  </div>
+  <div class="actions nav">
+    <button type="button" id="daily">Harian</button>
+    <button type="button" id="random">Acak</button>
+  </div>
+</main>
+<footer><a href="privacy.html">Privasi</a> · Kata dari daftar Ivan Lanin (2011)</footer>
+<script src="data/words.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

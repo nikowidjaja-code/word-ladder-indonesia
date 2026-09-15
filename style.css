@@ -1,0 +1,30 @@
+:root { --bg:#fafafa; --fg:#111; --mute:#777; --line:#ddd; --ok:#2e7d32; --bad:#c62828; }
+@media (prefers-color-scheme: dark) { :root { --bg:#111; --fg:#eee; --mute:#999; --line:#333; } }
+* { box-sizing:border-box; }
+body { margin:0; font:16px/1.4 system-ui, sans-serif; background:var(--bg); color:var(--fg); max-width:420px; margin-inline:auto; padding:16px; }
+header { text-align:center; }
+h1 { margin:0 0 8px; font-weight:600; letter-spacing:.05em; }
+.stats { display:flex; justify-content:center; gap:24px; }
+.stats div { display:flex; flex-direction:column; align-items:center; }
+.stats span { font-size:1.4em; font-weight:600; }
+.stats label { font-size:.75em; color:var(--mute); text-transform:uppercase; }
+.mode { text-align:center; color:var(--mute); font-size:.85em; margin:12px 0 4px; }
+ol { list-style:none; padding:0; margin:0; }
+li { text-align:center; padding:8px; font-size:1.5em; letter-spacing:.3em; text-transform:uppercase; border-bottom:1px solid var(--line); animation:slide .25s ease-out; }
+li.hint { color:var(--mute); }
+@keyframes slide { from { opacity:0; transform:translateY(-12px);} to { opacity:1; transform:none;} }
+input { width:100%; font-size:1.5em; letter-spacing:.3em; text-transform:uppercase; text-align:center; padding:10px; border:2px solid var(--line); border-radius:8px; background:transparent; color:var(--fg); margin-top:8px; }
+input:focus { outline:none; border-color:var(--fg); }
+input.shake { animation:shake .3s; border-color:var(--bad); }
+@keyframes shake { 0%,100%{transform:none} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
+.msg { min-height:1.4em; text-align:center; color:var(--bad); font-size:.9em; margin:6px 0; }
+.target { text-align:center; margin:4px 0 12px; }
+.target b { letter-spacing:.3em; text-transform:uppercase; font-size:1.2em; }
+.actions { display:flex; gap:8px; justify-content:center; margin-top:8px; }
+.nav { margin-top:24px; }
+button { font:inherit; padding:8px 14px; border:1px solid var(--line); border-radius:8px; background:transparent; color:var(--fg); cursor:pointer; }
+button:disabled { opacity:.4; cursor:default; }
+.done { text-align:center; margin-top:16px; padding:12px; border:1px solid var(--ok); border-radius:8px; }
+.done p { margin:0 0 8px; white-space:pre-line; }
+footer { text-align:center; color:var(--mute); font-size:.75em; margin-top:32px; }
+footer a { color:inherit; }
