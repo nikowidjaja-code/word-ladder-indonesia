@@ -63,12 +63,11 @@
 
     <div class="play">
     <form onsubmit={onSubmit} autocomplete="off" class="box">
-      <div class="wrap">
+      <div class="wrap" class:shake>
       <!-- svelte-ignore a11y_autofocus -->
       <input
         bind:this={inputEl}
         bind:value={input}
-        class:shake
         type="text"
         maxlength={game.s.start.length}
         disabled={game.s.done}
@@ -82,7 +81,7 @@
       />
       <div class="cells" aria-hidden="true">
         {#each { length: game.s.start.length } as _, i}
-          <span class:empty={!input[i]} class:done={game.s.done}>{game.s.done ? game.s.target[i] : input[i] ?? ""}</span>
+          <span class:empty={!input[i]} class:active={i === input.length} class:done={game.s.done}>{game.s.done ? game.s.target[i] : input[i] ?? ""}</span>
         {/each}
       </div>
       </div>
@@ -138,14 +137,15 @@
 
   .box { margin: 12px 0; }
   .wrap { position: relative; }
-  input { display: block; width: 100%; min-width: 0; font-size: clamp(2em, 10vw, 3em); font-weight: 700; letter-spacing: .25em; text-transform: uppercase; text-align: center; padding: .35em 0; border: 3px solid var(--fg); border-radius: 16px; background: transparent; color: transparent; caret-color: transparent; }
+  input { display: block; width: 100%; min-width: 0; font-size: clamp(2em, 10vw, 3em); font-weight: 700; letter-spacing: .25em; text-transform: uppercase; text-align: center; padding: .35em 0; border: 0; background: transparent; color: transparent; caret-color: transparent; }
   .cells { position: absolute; inset: 0; font-size: clamp(2em, 10vw, 3em); display: flex; justify-content: center; align-items: center; gap: .3em; pointer-events: none; font-weight: 700; text-transform: uppercase; }
-  .cells span { width: 1.1ch; text-align: center; border-bottom: .12em solid transparent; }
+  .cells span { width: 1.1ch; text-align: center; border-bottom: .1em solid var(--line); }
   .cells span.empty { border-bottom-color: var(--mute); }
+  .wrap:focus-within .cells span.active { border-bottom-color: var(--fg); }
   .cells span.done { color: var(--ok); }
-  input:focus { outline: none; box-shadow: 0 0 0 4px color-mix(in srgb, var(--fg) 15%, transparent); }
-  input:disabled { border-color: var(--ok); }
-  input.shake { animation: shake .3s; border-color: var(--bad); }
+  input:focus { outline: none; }
+  .wrap.shake { animation: shake .3s; }
+  .wrap.shake .cells span.empty { border-bottom-color: var(--bad); }
   @keyframes shake { 0%,100% { transform: none } 25% { transform: translateX(-10px) } 75% { transform: translateX(10px) } }
   .msg { min-height: 1.3em; margin: 6px 0 0; text-align: center; color: var(--bad); font-size: .9em; }
 
