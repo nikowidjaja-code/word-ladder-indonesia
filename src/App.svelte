@@ -63,6 +63,7 @@
 
     <div class="play">
     <form onsubmit={onSubmit} autocomplete="off" class="box">
+      <div class="wrap">
       <!-- svelte-ignore a11y_autofocus -->
       <input
         bind:this={inputEl}
@@ -71,7 +72,6 @@
         type="text"
         maxlength={game.s.start.length}
         disabled={game.s.done}
-        placeholder={game.s.done ? "✓" : "·".repeat(game.s.start.length)}
         inputmode="text"
         autocapitalize="none"
         autocorrect="off"
@@ -80,6 +80,12 @@
         aria-label="Kata berikutnya"
         autofocus
       />
+      <div class="cells" aria-hidden="true">
+        {#each { length: game.s.start.length } as _, i}
+          <span class:empty={!input[i]} class:done={game.s.done}>{game.s.done ? game.s.target[i] : input[i] ?? ""}</span>
+        {/each}
+      </div>
+      </div>
       <p class="msg" role="alert">{msg}</p>
     </form>
 
@@ -131,10 +137,14 @@
   .chain li.hit { color: var(--ok); }
 
   .box { margin: 12px 0; }
-  input { display: block; width: 100%; min-width: 0; font-size: clamp(2em, 10vw, 3em); font-weight: 700; letter-spacing: .25em; text-transform: uppercase; text-align: center; padding: .35em 0; border: 3px solid var(--fg); border-radius: 16px; background: transparent; color: var(--fg); }
-  input::placeholder { color: var(--line); }
+  .wrap { position: relative; }
+  input { display: block; width: 100%; min-width: 0; font-size: clamp(2em, 10vw, 3em); font-weight: 700; letter-spacing: .25em; text-transform: uppercase; text-align: center; padding: .35em 0; border: 3px solid var(--fg); border-radius: 16px; background: transparent; color: transparent; caret-color: transparent; }
+  .cells { position: absolute; inset: 0; font-size: clamp(2em, 10vw, 3em); display: flex; justify-content: center; align-items: center; gap: .3em; pointer-events: none; font-weight: 700; text-transform: uppercase; }
+  .cells span { width: 1.1ch; text-align: center; border-bottom: .12em solid transparent; }
+  .cells span.empty { border-bottom-color: var(--mute); }
+  .cells span.done { color: var(--ok); }
   input:focus { outline: none; box-shadow: 0 0 0 4px color-mix(in srgb, var(--fg) 15%, transparent); }
-  input:disabled { border-color: var(--ok); color: var(--ok); }
+  input:disabled { border-color: var(--ok); }
   input.shake { animation: shake .3s; border-color: var(--bad); }
   @keyframes shake { 0%,100% { transform: none } 25% { transform: translateX(-10px) } 75% { transform: translateX(10px) } }
   .msg { min-height: 1.3em; margin: 6px 0 0; text-align: center; color: var(--bad); font-size: .9em; }
@@ -161,7 +171,7 @@
     .chain { flex: 0 0 auto; max-height: 40vh; overflow-y: auto; }
     .play { grid-area: play; display: flex; flex-direction: column; justify-content: center; min-width: 0; container-type: inline-size; }
     .word { font-size: clamp(1.4em, 13cqw, 2.8em); }
-    input { font-size: clamp(1.6em, 16cqw, 3.4em); letter-spacing: .15em; }
+    input, .cells { font-size: clamp(1.6em, 16cqw, 3.4em); }
     .box { margin: 0; }
   }
 </style>
