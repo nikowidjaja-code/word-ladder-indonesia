@@ -62,7 +62,8 @@
     </div>
 
     <div class="play">
-    <form onsubmit={onSubmit} autocomplete="off" class="box">
+    {#if !game.s.done}
+    <form onsubmit={onSubmit} autocomplete="off" class="box" transition:slide={{ duration: 200 }}>
       <div class="wrap" class:shake>
       <!-- svelte-ignore a11y_autofocus -->
       <input
@@ -81,12 +82,13 @@
       />
       <div class="cells" aria-hidden="true">
         {#each { length: game.s.start.length } as _, i}
-          <span class:empty={!input[i]} class:active={i === input.length} class:done={game.s.done}>{game.s.done ? game.s.target[i] : input[i] ?? ""}</span>
+          <span class:empty={!input[i]} class:active={i === input.length}>{input[i] ?? ""}</span>
         {/each}
       </div>
       </div>
       <p class="msg" role="alert">{msg}</p>
     </form>
+    {/if}
 
 
     {#if game.s.done}
@@ -143,7 +145,6 @@
   .cells span { width: 1.1ch; text-align: center; border-bottom: .1em solid var(--line); }
   .cells span.empty { border-bottom-color: var(--mute); }
   .wrap:focus-within .cells span.active { border-bottom-color: var(--fg); }
-  .cells span.done { color: var(--ok); }
   input:focus { outline: none; }
   .wrap.shake { animation: shake .3s; }
   .wrap.shake .cells span.empty { border-bottom-color: var(--bad); }
