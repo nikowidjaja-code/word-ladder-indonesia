@@ -136,7 +136,8 @@
   .chain li.hit { color: var(--ok); }
 
   .box { margin: 12px 0; }
-  .wrap { position: relative; }
+  .wrap { position: relative; background: var(--soft); border-radius: 16px; transition: background .15s; }
+  .wrap:focus-within { background: var(--softer); }
   input { display: block; width: 100%; min-width: 0; font-size: clamp(2em, 10vw, 3em); font-weight: 700; letter-spacing: .25em; text-transform: uppercase; text-align: center; padding: .35em 0; border: 0; background: transparent; color: transparent; caret-color: transparent; }
   .cells { position: absolute; inset: 0; font-size: clamp(2em, 10vw, 3em); display: flex; justify-content: center; align-items: center; gap: .3em; pointer-events: none; font-weight: 700; text-transform: uppercase; }
   .cells span { width: 1.1ch; text-align: center; border-bottom: .1em solid var(--line); }
